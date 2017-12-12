@@ -39,7 +39,6 @@ public class ShowFileContents {
         PrintWriter outWriter = new PrintWriter(System.out);
         FileStringifier fd = new StringifierProxy(outWriter, dir);
         fd.display(outWriter);
-        }
     }
 
 }
