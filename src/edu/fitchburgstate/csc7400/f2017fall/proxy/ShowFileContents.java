@@ -37,10 +37,8 @@ public class ShowFileContents {
         }
 
         PrintWriter outWriter = new PrintWriter(System.out);
-        for (File file: dir.listFiles()) {
-            if (file.isDirectory()) continue;
-            FileStringifier fd = new SlowFileStringifier(file.getPath());
-            fd.display(outWriter);
+        FileStringifier fd = new StringifierProxy(outWriter, dir);
+        fd.display(outWriter);
         }
     }
 
