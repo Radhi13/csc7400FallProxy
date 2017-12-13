@@ -2,8 +2,9 @@
  * Class: Object-Oriented Design and Analysis
  * Professor: Orlando Montalvo
  * Assignment: HW 10
+ * Students: Ragadeepthi, Manaswitha, Radhika
  * 
- * Date: 2017-11-28
+ * Date: 2017-10-12
  */
 package edu.fitchburgstate.csc7400.f2017fall.proxy;
 
@@ -63,5 +64,5 @@ public class SlowFileStringifier implements FileStringifier {
 		return "";
     }
 
-    private final String fileName;
+    private String fileName;
 }
