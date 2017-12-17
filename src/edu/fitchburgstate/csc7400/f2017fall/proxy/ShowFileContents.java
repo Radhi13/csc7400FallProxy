@@ -38,8 +38,13 @@ public class ShowFileContents {
         }
 
         PrintWriter outWriter = new PrintWriter(System.out);
-        FileStringifier fd = new StringifierProxy(outWriter, dir);
-        fd.display(outWriter);
+        for (File file: dir.listFiles()) {
+        	if (file.isDirectory()) continue;
+        	StringifierProxy fd = new StringifierProxy(file.getPath());
+        	fd.display(outWriter);
+        	fd.start();
+        }
+        
     }
 
 }

@@ -9,23 +9,22 @@
 package edu.fitchburgstate.csc7400.f2017fall.proxy;
 import java.io.*;
 /**
-     * 
-     * prints the file names and their content
-     *
-     */
-public class StringifierProxy implements FileStringifier
+ * 
+ * prints the file names and their content
+ *
+ */
+public class StringifierProxy extends Thread
 {
-    /**
-         * Initializes object with the passed values
-         * @param out
-         * @param dir
-         */
-
-	public StringifierProxy(PrintWriter out,File dir)
-	{
-        
-        this.outWriter = out;
-        this.dir = dir;
+	private String filename;
+	private SlowFileStringifier slowfilestringifier;
+	
+	/**
+     * Create a file stringifier with a file name
+     * @param filename file name of file
+     */
+	
+	public StringifierProxy(String filename) {
+        this.filename = filename;
     }
     
     /**
@@ -33,32 +32,16 @@ public class StringifierProxy implements FileStringifier
      * @param out the output print writer
      */
      
-	public void display(PrintWriter out) 
-	{
-		for (File file: dir.listFiles()) 
-		{
-            if (file.isDirectory()) 
-            	continue;
-            this.fileName = file.getPath();
-    	System.out.println("Reading "+fileName);
-		}
-		for (File file: dir.listFiles()) 
-		{
-            if (file.isDirectory()) 
-            	continue;
-            this.fileName = file.getPath();
-    	slowfilestringifier = new SlowFileStringifier(fileName);
-    	slowfilestringifier.display(outWriter);
-        }
-	}
-	public String stringify()
-	{
-		return "";
-	}
+	public void display(PrintWriter out) {
+    	System.out.println("Reading "+this.filename);
+		slowfilestringifier = new SlowFileStringifier(filename); 
+	 }
+	/**
+	 *Thread for SlowStringifier display method
+ 	 */
 	
-	private String fileName;
-	private final File dir;
-    
 	PrintWriter outWriter = new PrintWriter(System.out);
-	SlowFileStringifier slowfilestringifier;
+	public void run() {
+		slowfilestringifier.display(outWriter);
+		}
 }
