@@ -7,41 +7,48 @@
  */
 
 package edu.fitchburgstate.csc7400.f2017fall.proxy;
-import java.io.*;
+import java.io.PrintWriter;
 /**
  * 
  * prints the file names and their content
  *
  */
-public class StringifierProxy extends Thread
+public class StringifierProxy implements FileStringifier 
 {
-	private String filename;
-	private SlowFileStringifier slowfilestringifier;
-	
 	/**
-     * Create a file stringifier with a file name
+     * Create a file StringifierProxy with a file name
      * @param filename file name of file
      */
-	
 	public StringifierProxy(String filename) {
-        this.filename = filename;
+		this.fileName = filename;
+		slowfilestringifier = new SlowFileStringifier(fileName);
     }
-    
-    /**
+	/**
      * Prints the file names and calls display method in slowfilestringifier class
      * @param out the output print writer
      */
-     
-	public void display(PrintWriter out) {
-    	System.out.println("Reading "+this.filename);
-		slowfilestringifier = new SlowFileStringifier(filename); 
-	 }
-	/**
-	 *Thread for SlowStringifier display method
- 	 */
+	public void display(PrintWriter out) 
+	{
+		System.out.println("Reading "+this.fileName);
+		if(slowfilestringifier == null)
+		{
+			new Thread(
+					new Runnable() {
+		  				public void run() {		  				
+		  					out.println(stringify());
+		  					out.flush();	
+		  				}		  			
+		  			}).start();;			  		
+		  		}
+	      }  
+				
+	@Override
+	public String stringify() {
+		return slowfilestringifier.stringify();
+		
+	}
 	
-	PrintWriter outWriter = new PrintWriter(System.out);
-	public void run() {
-		slowfilestringifier.display(outWriter);
-		}
+	private String fileName;
+	private SlowFileStringifier slowfilestringifier;
 }
+
